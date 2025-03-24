@@ -32,9 +32,14 @@ const handlePhotoUpload = (date: string, url: string) => {
 useEffect(() => {
   const loadExistingPhotos = async () => {
     const newPhotoMap : { [date: string]: string } = {};
+    const today = new Date();
 
     for (let i=1; i <= daysInMonth; i++) {
       const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      const dateObj = new Date(fullDate);
+
+      if (dateObj > today) continue;
+
       const url = `http://localhost:4000/uploads/${fullDate}.png`;
 
       try {
@@ -79,13 +84,13 @@ const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
       {/* 월 이동 버튼 */}
       <div className="flex items-center gap-4 mb-4">
         <button onClick={goToPrevMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-          ← 이전 달
+          ←
         </button>
         <div className="font-semibold text-lg">
           {year}년 {month + 1}월
         </div>
         <button onClick={goToNextMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-          다음 달 →
+          →
         </button>
       </div>
 
