@@ -1,42 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DayCell from "./DayCell.tsx";
 
 const Calendar: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(() => new Date());
+const [currentDate, setCurrentDate] = useState(() => new Date());
+const [ photoMap, setPhotoMap ] = useState<{ [date: string]: string }>({});
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth(); // 0~11
+const year = currentDate.getFullYear();
+const month = currentDate.getMonth(); // 0~11
 
-  const today = new Date();
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
-    today.getDate()
+const today = new Date();
+const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
+  today.getDate()
+).padStart(2, "0")}`;
+
+const firstDayOfMonth = new Date(year, month, 1);
+const startWeekday = firstDayOfMonth.getDay();
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+const goToPrevMonth = () => {
+  setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+};
+
+const goToNextMonth = () => {
+  setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+};
+
+const handlePhotoUpload = (date: string, url: string) => {
+  setPhotoMap((prev) => ({ ...prev, [date]: url }));
+}
+
+useEffect(() => {
+  const loadExistingPhotos = async () => {
+    const newPhotoMap : { [date: string]: string } = {};
+
+    for (let i=1; i <= daysInMonth; i++) {
+      const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      const url = `http://localhost:4000/uploads/${fullDate}.png`;
+
+      try {
+        // 이미지가 실제 존재하는지 HEAD 요청으로 확인
+        const res = await fetch(url, { method: "HEAD" });
+        if (res.ok) {
+          newPhotoMap[fullDate] = url;
+        }
+      } catch (err) {
+        // 이미지가 없으면 무시
+      }
+    }
+    
+    setPhotoMap(newPhotoMap);
+  };
+
+  loadExistingPhotos();
+}, [year, month, daysInMonth]);
+
+const blankCells = Array.from({ length: startWeekday }, (_, i) => (
+  <div key={`blank-${i}`} />
+));
+
+const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
+  const date = i + 1;
+  const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(
+    date
   ).padStart(2, "0")}`;
+  const isToday = fullDate === todayStr;
 
-  const firstDayOfMonth = new Date(year, month, 1);
-  const startWeekday = firstDayOfMonth.getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  const goToPrevMonth = () => {
-    setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
-  };
-
-  const blankCells = Array.from({ length: startWeekday }, (_, i) => (
-    <div key={`blank-${i}`} />
-  ));
-
-  const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
-    const date = i + 1;
-    const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(
-      date
-    ).padStart(2, "0")}`;
-    const isToday = fullDate === todayStr;
-
-    return <DayCell key={fullDate} date={fullDate} isToday={isToday} />;
-  });
+  return <DayCell
+    key={fullDate}
+    date={fullDate}
+    isToday={isToday}
+    photoUrl={photoMap[fullDate]}
+    onPhotoUpload={handlePhotoUpload}   
+  />;
+});
 
   return (
     <div className="flex flex-col items-center">
