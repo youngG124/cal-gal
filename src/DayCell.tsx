@@ -5,7 +5,7 @@ type DayCellProps = {
   date: string;
   photoUrl?: string;
   isToday?: boolean;
-  onPhotoUpload?: (date: string, url: string) => void;
+  onPhotoUpload?: (date: string, url?: string) => void;
 };
 
 function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProps) {
@@ -22,6 +22,26 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
 
   const handleClick = () => {
     fileInputRef.current?.click();
+  }
+
+  const handleRightClick = async (e : React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (!photoUrl) return;
+
+    const confirmDelete = window.confirm("Do you want to delete this image?");
+    if (!confirmDelete) return;
+
+    console.log('deleting : ' + date);
+
+    try {
+      const res = await axios.delete(`http://localhost:4000/delete/${date}`);
+      console.log(res.data);
+      onPhotoUpload?.(date, undefined);
+    } catch (err) {
+      console.error(err);
+      alert("delete failed, err : " + err);
+    }
   }
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +72,7 @@ const getExtension = (filename: string) => {
 };
 
   return (
-    <div onClick={handleClick} className={cellClass}>
+    <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
       <span
         className={`absolute top-1 left-1 text-xs font-medium ${
           isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"    

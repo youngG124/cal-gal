@@ -25,8 +25,18 @@ const goToNextMonth = () => {
   setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
 };
 
-const handlePhotoUpload = (date: string, url: string) => {
-  setPhotoMap((prev) => ({ ...prev, [date]: url }));
+const handlePhotoUpload = (date: string, url?: string) => {
+  // url이 undefined면 삭제된 거라고 간주
+  if (url) {
+    setPhotoMap(prev => ({ ...prev, [date]: url }));
+  } else {
+    // 삭제된 경우에는 제거
+    setPhotoMap(prev => {
+      const copy = { ...prev };
+      delete copy[date];
+      return copy;
+    });
+  }
 }
 
 useEffect(() => {
@@ -75,7 +85,7 @@ const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
     date={fullDate}
     isToday={isToday}
     photoUrl={photoMap[fullDate]}
-    onPhotoUpload={handlePhotoUpload}   
+    onPhotoUpload={handlePhotoUpload}
   />;
 });
 
