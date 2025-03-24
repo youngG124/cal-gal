@@ -57,7 +57,9 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log(res.data);
-      const fileUrl = `http://localhost:4000/uploads/${date}${getExtension(file.name)}`;
+      const timestamp = new Date().getTime(); // 현재 시간(ms)
+      const fileUrl = `http://localhost:4000/uploads/${date}${getExtension(file.name)}?t=${timestamp}`;
+
       onPhotoUpload?.(date, fileUrl);
     } catch (err) {
       console.error(err);
