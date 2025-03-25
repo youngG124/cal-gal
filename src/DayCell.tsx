@@ -36,7 +36,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
     console.log('deleting : ' + date);
 
     try {
-      const res = await axios.delete(`http://localhost:4000/delete/${date}`);
+      const res = await axios.delete(`http://192.168.0.189:4000/delete/${date}`);
       console.log(res.data);
       onPhotoUpload?.(date, undefined);
     } catch (err) {
@@ -54,32 +54,25 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
     formData.append("date", date);
 
     try {
-      const res = await axios.post(`http://localhost:4000/upload/${date}`, formData, {
+      const res = await axios.post(`http://192.168.0.189:4000/upload/${date}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log(res.data);
       const timestamp = new Date().getTime(); // 현재 시간(ms)
-      const fileUrl = `http://localhost:4000/uploads/${date}${getExtension(file.name)}?t=${timestamp}`;
+      const fileUrl = `http://192.168.0.189:4000/upload/${date}?t=${timestamp}`;
 
       onPhotoUpload?.(date, fileUrl);
     } catch (err) {
       console.error(err);
-      alert("upload failed");
+      alert("upload failed : " + err);
     }
   };  
 
-  const cellClass = `
+  const cellClass = `min-w-[55px]
   relative w-full aspect-square rounded-xl overflow-hidden shadow-sm border border-gray-200 
   ${isToday ? "bg-yellow-200 border-yellow-400" : ""}
   hover:scale-[1.02] hover:shadow-md transition-transform duration-200 cursor-pointer
 `;
-
-
-  // 확장자 유지 함수
-  const getExtension = (filename: string) => {
-    const dotIndex = filename.lastIndexOf(".");
-    return dotIndex !== -1 ? filename.substring(dotIndex) : ".jpg";
-  };
 
   return (
     <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>

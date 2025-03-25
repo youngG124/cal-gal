@@ -15,13 +15,17 @@ function App() {
       </main>
 
       {/* 푸터 */}
-      <footer className="bg-gray-100 text-center text-sm text-gray-500 p-4 space-y-1">
-        <div>&copy; 2025 CalGal. All rights reserved.</div>
-        <div>Contact: <a href="newyoung124@naver.com" className="text-blue-500 hover:underline">newyoung124@naver.com</a></div>
-        <div className="flex justify-center space-x-4 mt-1">
-          <a href="https://github.com/youngG124" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
-          <a href="https://blog.naver.com/newyoung124" target="_blank" rel="noopener noreferrer" className="hover:underline">Blog</a>
-          <a href="https://www.instagram.com/practicalsinn/" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a>
+      <footer className="bg-gray-100 text-sm text-gray-500 p-4">
+        <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-6">
+          <div>&copy; 2025 CalGal. All rights reserved.</div>
+          <div>
+            Contact: <a href="mailto:newyoung124@naver.com" className="text-blue-500 hover:underline">newyoung124@naver.com</a>
+          </div>
+          <div className="flex space-x-4">
+            <a href="https://github.com/youngG124" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
+            <a href="https://blog.naver.com/newyoung124" className="hover:underline">Blog</a>
+            <a href="https://www.instagram.com/practicalsinn/" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a>
+          </div>
         </div>
       </footer>
     </div>
