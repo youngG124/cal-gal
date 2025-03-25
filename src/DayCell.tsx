@@ -59,8 +59,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
       });
       console.log(res.data);
       const timestamp = new Date().getTime(); // 현재 시간(ms)
-      const fileUrl = `http://192.168.0.189:4000/upload/${date}?t=${timestamp}`;
-
+      const fileUrl = `http://192.168.0.189:4000/image/${date}?t=${timestamp}`;
       onPhotoUpload?.(date, fileUrl);
     } catch (err) {
       console.error(err);
