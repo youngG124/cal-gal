@@ -36,7 +36,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
     console.log('deleting : ' + date);
 
     try {
-      const res = await axios.delete(`http://192.168.0.189:4000/delete/${date}`);
+      const res = await axios.delete(`http://localhost:4000/delete/${date}`);
       console.log(res.data);
       onPhotoUpload?.(date, undefined);
     } catch (err) {
@@ -54,12 +54,12 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
     formData.append("date", date);
 
     try {
-      const res = await axios.post(`http://192.168.0.189:4000/upload/${date}`, formData, {
+      const res = await axios.post(`http://localhost:4000/upload/${date}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log(res.data);
       const timestamp = new Date().getTime(); // 현재 시간(ms)
-      const fileUrl = `http://192.168.0.189:4000/image/${date}?t=${timestamp}`;
+      const fileUrl = `http://localhost:4000/image/${date}?t=${timestamp}`;
       onPhotoUpload?.(date, fileUrl);
     } catch (err) {
       console.error(err);
