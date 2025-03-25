@@ -17,6 +17,11 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
+    const today = (new Date()).getDate();
+    const cellDate = date.split('-')[2];
+
+    if(today < parseInt(cellDate)) return;
+
     fileInputRef.current?.click();
   }
 
