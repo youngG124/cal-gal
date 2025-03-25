@@ -90,13 +90,13 @@ const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
 });
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="font-serif flex flex-col items-center">
       {/* 월 이동 버튼 */}
       <div className="flex items-center gap-4 mb-4">
         <button onClick={goToPrevMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
           ←
         </button>
-        <div className="font-semibold text-lg">
+        <div className="text-lg">
           {year}년 {month + 1}월
         </div>
         <button onClick={goToNextMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
@@ -105,7 +105,7 @@ const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
       </div>
 
       {/* 달력 */}
-      <div className="grid grid-cols-7 gap-3 p-4 bg-gray-50 rounded-lg" style={{ maxWidth: "700px", width: "100%" }}>
+      <div className="grid grid-cols-7 gap-[3px] w-full max-w-screen-lg p-4" style={{ height:"80vh" }}>
         {blankCells}
         {dayCells}
       </div>

@@ -16,10 +16,6 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const cellClass = `relative w-24 h-24 border rounded-lg overflow-hidden flex items-center justify-center cursor-pointer transition-all duration-200 ${
-    isToday ? "bg-yellow-200 border-yellow-400" : "bg-white"
-  }`;
-
   const handleClick = () => {
     fileInputRef.current?.click();
   }
@@ -65,21 +61,26 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
       console.error(err);
       alert("upload failed");
     }
-  };
+  };  
+
+  const cellClass = `
+  relative w-full aspect-square rounded-xl overflow-hidden shadow-sm border border-gray-200 
+  ${isToday ? "bg-yellow-200 border-yellow-400" : ""}
+  hover:scale-[1.02] hover:shadow-md transition-transform duration-200 cursor-pointer
+`;
+
 
   // 확장자 유지 함수
-const getExtension = (filename: string) => {
-  const dotIndex = filename.lastIndexOf(".");
-  return dotIndex !== -1 ? filename.substring(dotIndex) : ".jpg";
-};
+  const getExtension = (filename: string) => {
+    const dotIndex = filename.lastIndexOf(".");
+    return dotIndex !== -1 ? filename.substring(dotIndex) : ".jpg";
+  };
 
   return (
     <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
       <span
-        className={`absolute top-1 left-1 text-xs font-medium ${
-          isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"    
-        }`}
-      >
+        className={`absolute top-1 left-1 text-xs drop-shadow-sm font-medium 
+          ${isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"}`}>
         {dayNumber}
       </span>
 
