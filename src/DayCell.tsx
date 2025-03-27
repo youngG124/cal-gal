@@ -68,10 +68,11 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   };  
 
   const cellClass = `min-w-[55px]
-  relative w-full aspect-square rounded-xl overflow-hidden shadow-sm border border-gray-200 
+  relative w-full rounded-xl overflow-hidden shadow-sm border border-gray-200 
   ${isToday ? "bg-yellow-200 border-yellow-400" : ""}
   hover:scale-[1.02] hover:shadow-md transition-transform duration-200 cursor-pointer
-`;
+  `;
+  
 
   return (
     <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>

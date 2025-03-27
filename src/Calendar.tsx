@@ -89,28 +89,30 @@ const dayCells = Array.from({ length: daysInMonth }, (_, i) => {
   />;
 });
 
-  return (
-    <div className="font-serif flex flex-col items-center">
-      {/* 월 이동 버튼 */}
-      <div className="flex items-center gap-4 mb-4">
-        <button onClick={goToPrevMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-          ←
-        </button>
-        <div className="text-lg">
-          {year}년 {month + 1}월
-        </div>
-        <button onClick={goToNextMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-          →
-        </button>
+return (
+  <div className="font-serif flex flex-col w-full">
+    {/* 월 이동 버튼 */}
+    <div className="flex justify-center items-center gap-4 my-4">
+      <button onClick={goToPrevMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+        ←
+      </button>
+      <div className="text-lg">
+        {year}년 {month + 1}월
       </div>
+      <button onClick={goToNextMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+        →
+      </button>
+    </div>
 
-      {/* 달력 */}
-      <div className="grid grid-cols-7 gap-[3px] w-full max-w-screen-lg p-4" style={{ height:"80vh" }}>
+    {/* 달력 */}
+    <div className="w-full px-4">
+      <div className="grid grid-cols-7 gap-[3px] w-full max-w-screen-xl mx-auto" style={{ height: "80vh" }}>
         {blankCells}
         {dayCells}
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Calendar;
