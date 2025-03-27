@@ -10,7 +10,7 @@ function App() {
       </header>
 
       {/* 메인 콘텐츠 - Calendar */}
-      <main className="flex-grow flex items-center justify-center pt-4">
+      <main className="flex-grow flex items-center justify-center mb-4">
         <Calendar />
       </main>
 
