@@ -106,7 +106,7 @@ return (
 
     {/* 달력 */}
     <div className="w-full px-4">
-      <div className="grid grid-cols-7 gap-[3px] w-full max-w-full mx-auto" style={{ height: "80vh" }}>
+      <div className="grid grid-cols-7 gap-[3px] w-full max-w-full mx-auto" style={{ height: "65vh" }}>
         {blankCells}
         {dayCells}
       </div>
