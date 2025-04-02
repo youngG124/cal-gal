@@ -50,7 +50,7 @@ useEffect(() => {
 
       if (dateObj > today) continue;
 
-      const url = `http://localhost/image/${fullDate}`;
+      const url = `http://localhost:4000/image/${fullDate}`;
 
       try {
         // 이미지가 실제 존재하는지 HEAD 요청으로 확인
