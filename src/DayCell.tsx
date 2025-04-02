@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 
 type DayCellProps = {
@@ -17,14 +17,20 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   const dayNumber = date.split("-")[2]; // "24" 이런 식
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
-    const today = (new Date()).getDate();
-    const cellDate = date.split('-')[2];
 
-    if(today < parseInt(cellDate)) return;
+    const cellDate = new Date(date);
+    const today = new Date();
 
-    fileInputRef.current?.click();
+    if (cellDate > today) return;
+
+    if(photoUrl) {
+      setShowModal(true);
+    } else {
+      fileInputRef.current?.click();
+    }    
   }
 
   const handleRightClick = async (e : React.MouseEvent<HTMLDivElement>) => {
@@ -85,7 +91,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
       </span>
 
       {/* 이미지 */}
-      {photoUrl && (
+      {showModal && photoUrl && (
         <img
           src={photoUrl}
           alt="사진"
