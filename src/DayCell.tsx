@@ -79,7 +79,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   return (
     <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
       <span
-        className={`absolute top-1 left-1 text-xs drop-shadow-sm font-medium 
+        className={`absolute top-1 left-1 text-xs drop-shadow-sm font-medium z-10
           ${isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"}`}>
         {dayNumber}
       </span>
@@ -89,7 +89,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
         <img
           src={photoUrl}
           alt="사진"
-          className="w-full h-full object-cover rounded-lg"
+          className="absolute w-full h-full object-cover rounded-lg z-0"
         />
       )}
 
