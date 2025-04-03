@@ -78,9 +78,9 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   const cellClass = `min-w-[45px]
   relative w-full rounded-xl overflow-hidden shadow-sm border border-gray-200 
   ${isToday ? "bg-yellow-200 border-yellow-400" : ""}
-  hover:scale-[1.02] hover:shadow-md transition-transform duration-200 cursor-pointer
+  ${showModal ? "" : "hover:scale-[1.02] hover:shadow-md transition-transform duration-200"}
+  cursor-pointer
   `;
-  
 
   return (
     <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
@@ -91,12 +91,23 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
       </span>
 
       {/* 이미지 */}
-      {showModal && photoUrl && (
+      {photoUrl && (
         <img
           src={photoUrl}
           alt="사진"
           className="absolute w-full h-full object-cover rounded-lg z-0"
         />
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={(e) => {
+          e.stopPropagation();
+          setShowModal(false);
+        }}>
+          <div className="bg-white rounded-lg p-4 max-w-xl max-h-[80vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+            <img src={photoUrl} alt="확대된 사진" className="w-full h-auto rounded" />
+          </div>
+        </div>
       )}
 
       <input
