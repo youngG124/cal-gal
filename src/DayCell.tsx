@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import PhotoModal from "./PhotoModal.tsx";
 
 type DayCellProps = {
   date: string;
@@ -99,41 +100,40 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProp
   `;
 
   return (
-    <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
-      <span
-        className={`absolute top-1 left-1 text-xs drop-shadow-sm font-medium z-10
-          ${isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"}`}>
-        {dayNumber}
-      </span>
+    <>
+      <div onClick={handleClick} onContextMenu={handleRightClick} className={cellClass}>
+        <span
+          className={`absolute top-1 left-1 text-xs drop-shadow-sm font-medium z-10
+            ${isSunday ? "text-red-500" : isSaturday ? "text-blue-500" : "text-gray-600"}`}>
+          {dayNumber}
+        </span>
 
-      {/* 이미지 */}
-      {photoUrl && (
-        <img
-          src={photoUrl}
-          alt="사진"
-          className="absolute w-full h-full object-cover rounded-lg z-0"
+        {/* 이미지 */}
+        {photoUrl && (
+          <img
+            src={photoUrl}
+            alt="사진"
+            className="absolute w-full h-full object-cover rounded-lg z-0"
+          />
+        )}
+
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: "none"}}
+        />
+      </div>
+
+      {showModal && photoUrl && (
+        <PhotoModal
+          photoUrl={photoUrl}
+          date={date}
+          onClose={() => setShowModal(false)}
         />
       )}
-
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={(e) => {
-          e.stopPropagation();
-          setShowModal(false);
-        }}>
-          <div className="bg-white rounded-lg p-4 max-w-xl max-h-[80vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
-            <img src={photoUrl} alt="확대된 사진" className="w-full h-auto rounded" />
-          </div>
-        </div>
-      )}
-
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        style={{ display: "none"}}
-      />
-    </div>
+    </>
   );
 }
   
