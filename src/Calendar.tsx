@@ -44,35 +44,37 @@ const Calendar: React.FC<CalendarProps> = ({ password }) => {
   }
 
   useEffect(() => {
+    const oldUrls = Object.values(photoMap);
     const loadExistingPhotos = async () => {
-      const newPhotoMap : { [date: string]: string } = {};
+      const newPhotoMap: { [date: string]: string } = {};
       const today = new Date();
 
-      for (let i=1; i <= daysInMonth; i++) {
+      for (let i = 1; i <= daysInMonth; i++) {
         const fullDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
         const dateObj = new Date(fullDate);
-
         if (dateObj > today) continue;
 
         const url = `/api/image/${fullDate}`;
 
         try {
-          // 이미지가 실제 존재하는지 HEAD 요청으로 확인
           const res = await fetch(url, {
-            method: "HEAD",
-            headers: {
-              "x-access-token": password
-            }
+            headers: { "x-access-token": password },
           });
 
           if (res.ok) {
-            newPhotoMap[fullDate] = url;
+            const blob = await res.blob();
+            console.log(blob.type); // ✅ blob 타입 확인
+            const objectUrl = URL.createObjectURL(blob);
+            newPhotoMap[fullDate] = objectUrl;
           }
         } catch (err) {
-          // 이미지가 없으면 무시
+          console.warn(`Image load failed for ${fullDate}`);
         }
       }
-      
+
+      // 기존 객체 URL 정리
+      oldUrls.forEach(url => URL.revokeObjectURL(url));
+
       setPhotoMap(newPhotoMap);
     };
 

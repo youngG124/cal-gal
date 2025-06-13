@@ -11,7 +11,7 @@ function App() {
       {/* 헤더 */}
       <header className="bg-white shadow p-4 flex items-center justify-between">
         <div className="text-2xl font-bold text-blue-600">CalGal 📅</div>
-        <div className="text-sm text-gray-500">Keep your days remembered</div>
+        <div className="text-sm text-gray-500">Keep your days remembered.</div>
         <button onClick={() => setShowPasswordInput(true)}
         className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">
           🔐 로그인
