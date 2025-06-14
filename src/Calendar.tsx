@@ -103,7 +103,7 @@ const Calendar: React.FC<CalendarProps> = ({ password }) => {
   });
 
   return (
-    <div className="font-serif flex flex-col w-full">
+    <div className="flex flex-col w-full">
       {/* 월 이동 버튼 */}
       <div className="flex justify-center items-center gap-4 my-4">
         <button onClick={goToPrevMonth} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
