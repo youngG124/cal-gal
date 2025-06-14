@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DayCell from "./DayCell.tsx";
 
-interface CalendarProps {
-  password: string;
-}
-
-const Calendar: React.FC<CalendarProps> = ({ password }) => {
+const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [ photoMap, setPhotoMap ] = useState<{ [date: string]: string }>({});
 
@@ -58,7 +54,9 @@ const Calendar: React.FC<CalendarProps> = ({ password }) => {
 
         try {
           const res = await fetch(url, {
-            headers: { "x-access-token": password },
+            headers: { 
+              "x-access-token": sessionStorage.getItem("x-access-token") ?? ""
+            },
           });
 
           if (res.ok) {
@@ -79,7 +77,7 @@ const Calendar: React.FC<CalendarProps> = ({ password }) => {
     };
 
     loadExistingPhotos();
-  }, [year, month, daysInMonth, password]);
+  }, [year, month, daysInMonth]);
 
   const blankCells = Array.from({ length: startWeekday }, (_, i) => (
     <div key={`blank-${i}`} />
@@ -98,7 +96,6 @@ const Calendar: React.FC<CalendarProps> = ({ password }) => {
       isToday={isToday}
       photoUrl={photoMap[fullDate]}
       onPhotoUpload={handlePhotoUpload}
-      password={password}
     />;
   });
 

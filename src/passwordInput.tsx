@@ -1,12 +1,8 @@
 import { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { setToken } from './axiosInstance.ts';
 
-interface PasswordInputProps {
-    onSuccess: (password: string) => void;
-}
-
-export default function PasswordInput({ onSuccess }: PasswordInputProps) {
+export default function PasswordInput() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -17,9 +13,8 @@ export default function PasswordInput({ onSuccess }: PasswordInputProps) {
             }
         })
         .then(() => {
-            setToken(password);
+            sessionStorage.setItem('x-access-token', password);
             setError('');
-            onSuccess(password);
         })
         .catch(() => {
             setError('비밀번호가 틀렸습니다.');

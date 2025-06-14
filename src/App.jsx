@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import Calendar from "./Calendar.tsx";
-import PasswordInput from './passwordInput.tsx';
+import PasswordInput from './PasswordInput.tsx';
 
 function App() {
-  const [password, setPassword] = useState('');
   const [showPasswordInput, setShowPasswordInput] = useState(false);
 
   return (
@@ -23,8 +22,7 @@ function App() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
             <PasswordInput
-              onSuccess={(pwd) => {
-                setPassword(pwd);
+              onSuccess={() => {
                 setShowPasswordInput(false);
               }}
             />
@@ -40,7 +38,7 @@ function App() {
 
       {/* 메인 콘텐츠 - Calendar */}
       <main className="flex-grow flex items-center justify-center mb-4">
-        <Calendar password={password} />
+        <Calendar/>
       </main>
 
       {/* 푸터 */}

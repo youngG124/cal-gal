@@ -7,10 +7,9 @@ type DayCellProps = {
   photoUrl?: string;
   isToday?: boolean;
   onPhotoUpload?: (date: string, url?: string) => void;
-  password: string;
 };
 
-function DayCell({ date, photoUrl, isToday = false, onPhotoUpload, password }: DayCellProps) {
+function DayCell({ date, photoUrl, isToday = false, onPhotoUpload }: DayCellProps) {
   const day = new Date(date).getDay(); // 0 (Sun) ~ 6 (Sat)
   const isSunday = day === 0;
   const isSaturday = day === 6;
@@ -46,7 +45,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload, password }: D
     try {
       const res = await axios.delete(`/api/delete/${date}`, {
         headers: {
-          "x-access-token": password
+          "x-access-token": sessionStorage.getItem("x-access-token") ?? ""
         },
       });
       console.log(res.data);
@@ -85,7 +84,7 @@ function DayCell({ date, photoUrl, isToday = false, onPhotoUpload, password }: D
       const res = await axios.post(`/api/upload/${date}`, formData, {
         headers: { 
           "Content-Type": "multipart/form-data",
-          "x-access-token": password
+          "x-access-token": sessionStorage.getItem("x-access-token") ?? ""
         },
       });
       console.log(res.data);
